@@ -41,7 +41,6 @@ R3BCalifaFebexReader::R3BCalifaFebexReader(EXT_STR_h101_CALIFA* data, size_t off
     , fData(data)
     , fOffset(offset)
     , fOnline(kFALSE)
-      //    , fArraytrig(new TClonesArray("R3BCalifaMappedData"))
 {
 }
 
@@ -72,8 +71,35 @@ Bool_t R3BCalifaFebexReader::Init(ext_data_struct_info* a_struct_info)
     return kTRUE;
 }
 
+void R3BCalifaFebexReader::AssertOV()
+{
+    if (!fStructInfo)
+        return;
+
+    bool done{};
+    auto si = (ext_data_structure_info*)*fStructInfo;
+    int start = 1;
+    while (!done)
+    {
+        const char* name;
+        uint32_t offset, map_success;
+
+        int res = ext_data_struct_info_map_success(si, start, &name, &offset, &map_success);
+        done = res < 1;
+        if (res == 1 && !strcmp(name, "CALIFA_OV") && map_success & EXT_DATA_ITEM_MAP_NOT_FOUND)
+        {
+            assert(0 && "CALIFA_OV was not set by the experiment unpacker. Please fix your unpacker.");
+        }
+        start = 0;
+    }
+    fStructInfo = nullptr;
+}
+
 Bool_t R3BCalifaFebexReader::R3BRead()
 {
+    // on the first event, check the result of struct info
+    AssertOV(); // disable on your own risk.
+
     R3BLOG(debug1, "Event data.");
 
     // SELECT THE FOR LOOP BASED ON THE MAPPING...

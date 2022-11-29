@@ -57,6 +57,7 @@ class R3BCalifaFebexReader : public R3BReader
     void SetOnline(Bool_t option) { fOnline = option; }
 
   private:
+    void AssertOV();
     // An event counter
     unsigned int fNEvent;
     // Reader specific data structure from ucesb
