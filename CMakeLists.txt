@@ -459,7 +459,7 @@ message(STATUS "  ${BWhite}ROOT geometries${CR}          ${unitgeo_summary}")
     add_subdirectory(lumon)
     add_subdirectory(evtvis)
     add_subdirectory(psp)
-    add_subdirectory(compilehelper)
+#    add_subdirectory(compilehelper) # is this used for anything? --pklenze
     add_subdirectory(tcal)
     add_subdirectory(tracking)
     add_subdirectory(analysis)
