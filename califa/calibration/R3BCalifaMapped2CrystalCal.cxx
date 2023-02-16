@@ -25,11 +25,6 @@
 #include "R3BCalifaTotCalPar.h"
 #include "R3BLogger.h"
 
-// R3BCalifaMapped2CrystalCal::Constructor
-R3BCalifaMapped2CrystalCal::R3BCalifaMapped2CrystalCal()
-    : FairTask("R3BCalifaMapped2CrystalCal")
-{
-}
 
 
 void R3BCalifaMapped2CrystalCal::SetParContainers()
@@ -134,19 +129,17 @@ void R3BCalifaMapped2CrystalCal::SetParameter()
 
 InitStatus R3BCalifaMapped2CrystalCal::Init()
 {
-    R3BLOG(info, "");
-
-    // INPUT DATA
     FairRootManager* rootManager = FairRootManager::Instance();
     assert(rootManager);
 
-    fCalifaMappedData = rootManager->InitObjectAs<decltype(fCalifaMappedData)>(R3BCalifaMappedData::default_container_name);
+    fCalifaMappedData = rootManager->InitObjectAs<decltype(fCalifaMappedData)>(fInputName.c_str());
     assert(fCalifaMappedData);
     
     // OUTPUT DATA
     // Calibrated data
 
-    rootManager->RegisterAny(R3BCalifaCrystalCalData::default_container_name, fCalifaCryCalData, !fOnline);
+    rootManager->RegisterAny(fOutputName.c_str(), fCalifaCryCalData, !fOnline);
+    LLOG(info) << "Reading Mapped data from "<< fInputName << ", writing CrystalCalData to "<<fOutputName;
 
     SetParameter();
     return kSUCCESS;

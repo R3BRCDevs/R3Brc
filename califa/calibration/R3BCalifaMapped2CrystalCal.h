@@ -37,7 +37,13 @@ class R3BCalifaMapped2CrystalCal : public FairTask
 {
   public:
     /** Default constructor **/
-    R3BCalifaMapped2CrystalCal();
+  R3BCalifaMapped2CrystalCal(std::string output=R3BCalifaCrystalCalData::default_container_name,
+			     std::string input=R3BCalifaMappedData::default_container_name)
+    : FairTask("R3BCalifaMapped2CrystalCal")
+    , fInputName(input)
+    , fOutputName(output)
+  {
+  }
 
     /** Virtual method Exec **/
     virtual void Exec(Option_t* option);
@@ -70,6 +76,7 @@ class R3BCalifaMapped2CrystalCal : public FairTask
 
     R3BCalifaCrystalCalPar* fCal_Par{};  /**< Parameter container. >*/
     R3BCalifaTotCalPar* fTotCal_Par{};   /**< Tot Parameter container. >*/
+    std::string fInputName, fOutputName;
     const R3BCalifaMappedData::container_t* fCalifaMappedData; 
     R3BCalifaCrystalCalData::container_t* fCalifaCryCalData=new R3BCalifaCrystalCalData::container_t;
   public:

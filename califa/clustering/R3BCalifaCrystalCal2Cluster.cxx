@@ -62,19 +62,17 @@ void R3BCalifaCrystalCal2Cluster::SetParContainers()
 
 InitStatus R3BCalifaCrystalCal2Cluster::Init()
 {
-    R3BLOG(info, "");
     assert(!fCrystalCalMap && "Init called twice!");
     FairRootManager* frm = FairRootManager::Instance();
-    R3BLOG_IF(fatal, !frm, "FairRootManager not found");
+    assert(frm && "FairRootManager not found");
 
-    {
-      auto tmp = frm->InitObjectAs<const R3BCalifaCrystalCalData::container_t*>
-	(R3BCalifaCrystalCalData::default_container_name);
-      fCrystalCalMap=tmp; //const_cast<decltype(fCrystalCalMap)>(tmp); // sue me. 
-      assert(fCrystalCalMap);
-    }
-    
-    frm->RegisterAny(R3BCalifaClusterData::default_container_name, fClusterVec, !fOnline);
+    auto tmp = frm->InitObjectAs<const R3BCalifaCrystalCalData::container_t*>
+      (fInputName.c_str());
+    fCrystalCalMap=tmp; //const_cast<decltype(fCrystalCalMap)>(tmp); // sue me. 
+    assert(fCrystalCalMap);
+    frm->RegisterAny(fOutputName.c_str(), fClusterVec, !fOnline);
+
+    LLOG(info) << "reading CrystalCalData from "<<fInputName <<", writing ClusterData to "<< fOutputName;
     
     fGeo=R3BCalifaGeometry::Instance();
     return kSUCCESS;

@@ -33,10 +33,15 @@ class R3BCalifaCrystalCal2Cluster : public FairTask
     /** Constructor
      ** @param: pointer to a matcher implementation. Ownership is transferred. 
      **/
-    R3BCalifaCrystalCal2Cluster(R3BCalifaClusterMatcher* m= new R3BCalifaRectangle(14.3*degree, 14.3*degree))
+  R3BCalifaCrystalCal2Cluster(R3BCalifaClusterMatcher* m= new R3BCalifaRectangle(),
+			      std::string output=R3BCalifaClusterData::default_container_name,
+			      std::string input=R3BCalifaCrystalCalData::default_container_name)
       : FairTask("R3B CALIFA CrystalCal to Hit Finder")
       , fMatcher(m)
-    {}
+      , fInputName(input)
+      , fOutputName(output)
+    {
+    }    
 
     /** Destructor **/
     virtual ~R3BCalifaCrystalCal2Cluster()
@@ -98,7 +103,8 @@ class R3BCalifaCrystalCal2Cluster : public FairTask
     void DoClustering(candidate_t& candidates);
   
     ROOT::Math::XYZVector fCalifatoTargetPos {0, 0, 0};
-  
+
+    std::string fInputName, fOutputName;
     const R3BCalifaCrystalCalData::container_t* fCrystalCalMap{};
     R3BCalifaClusterData::container_t* fClusterVec=new R3BCalifaClusterData::container_t;
     R3BCalifaGeometry* fGeo{};
