@@ -6,33 +6,40 @@ if test "$1" != "--no-check"
 then
     . @_BINDIR@/check_system.sh
 else
+    shift
     export same_system=1
 fi
 
 if [ $same_system -eq 1 ]; then
-	export SIMPATH="@SIMPATH@"
-	export ROOTSYS="@ROOTSYS@"
-	export FAIRROOTPATH="@FAIRROOTPATH@"
-	export UCESB_DIR="@UCESBPATH@"
-	export UCESB_BASE="@UCESBPATH@"
-	export R3BROOTPATH="@R3BROOTPATH@"
-  if (@FULL_CONFIG_FILE@); then
-    export Geant4_INCLUDE_DIRS="@Geant4_INCLUDE_DIRS@"
-    export Geant4VMC_INCLUDE_DIRS="@Geant4VMC_INCLUDE_DIRS@"
-    export Geant4VMC_LIBRARY_DIR="@Geant4VMC_LIBRARY_DIR@"
-    export Geant4VMC_MACRO_DIR="@Geant4VMC_MACRO_DIR@"
-    export PLUTO_LIBRARY_DIR="@PLUTO_LIBRARY_DIR@"
-    export PLUTO_INCLUDE_DIR="@PLUTO_INCLUDE_DIR@"
-    export PYTHIA6_LIBRARY_DIR="@PYTHIA6_LIBRARY_DIR@"
-    export Geant3_INCLUDE_DIRS="@Geant3_INCLUDE_DIRS@"
-    export G3SYS="@G3SYS@"
-    export Geant3_LIBRARY_DIR="@Geant3_LIBRARY_DIR@"
-    export USE_VGM="1"
-    export PYTHIA8DATA="@PYTHIA8DATA@"
-    export CLASSPATH="@MY_CLASSPATH@"
-
-    @Geant4Data_Variables_sh@
-  fi
+    export SIMPATH="@SIMPATH@"
+    export ROOTSYS="@ROOTSYS@"
+    export FAIRROOTPATH="@FAIRROOTPATH@"
+    export UCESB_DIR="@UCESBPATH@"
+    export UCESB_BASE="@UCESBPATH@"
+    export R3BROOTPATH="@R3BROOTPATH@"
+    if (@FULL_CONFIG_FILE@); then
+	export Geant4_INCLUDE_DIRS="@Geant4_INCLUDE_DIRS@"
+	export Geant4VMC_INCLUDE_DIRS="@Geant4VMC_INCLUDE_DIRS@"
+	export Geant4VMC_LIBRARY_DIR="@Geant4VMC_LIBRARY_DIR@"
+	export Geant4VMC_MACRO_DIR="@Geant4VMC_MACRO_DIR@"
+	export PLUTO_LIBRARY_DIR="@PLUTO_LIBRARY_DIR@"
+	export PLUTO_INCLUDE_DIR="@PLUTO_INCLUDE_DIR@"
+	export PYTHIA6_LIBRARY_DIR="@PYTHIA6_LIBRARY_DIR@"
+	export Geant3_INCLUDE_DIRS="@Geant3_INCLUDE_DIRS@"
+	export G3SYS="@G3SYS@"
+	export Geant3_LIBRARY_DIR="@Geant3_LIBRARY_DIR@"
+	export USE_VGM="1"
+	export PYTHIA8DATA="@PYTHIA8DATA@"
+	export CLASSPATH="@MY_CLASSPATH@"
+      
+	@Geant4Data_Variables_sh@
+    fi
+    if test "$1" != "--no-prompt-prefix"
+    then
+	export PS1="[$(basename $(readlink -f @FAIRLIBDIR@/..) )] $PS1"
+    else
+	shift
+    fi
   export Geant3_INCLUDE_DIRS="@Geant3_INCLUDE_DIRS@"
   export ROOT_LIBRARY_DIR="@ROOT_LIBRARY_DIR@"
   export ROOT_LIBRARIES="@ROOT_LIBRARIES@"

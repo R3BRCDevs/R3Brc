@@ -34,7 +34,7 @@ class R3BCalifaCone: public R3BCalifaClusterMatcher
 {
   double fCosHalfAngle;
 public:
-  R3BCalifaCone(double halfAngle // angle between axis of cone and mantle, in radians 
+  R3BCalifaCone(double halfAngle = 0.1 // angle between axis of cone and mantle, in radians 
 		)
     : fCosHalfAngle(std::cos(halfAngle))
   {
@@ -53,8 +53,8 @@ class R3BCalifaRectangle: public R3BCalifaClusterMatcher
   double fDTheta, fDPhi;
 public:
   // "Rectangle" here is short for latitude-longitude rectangle
-  R3BCalifaRectangle(double dTheta, // all radians 
-		     double dPhi
+  R3BCalifaRectangle(double dTheta = 0.2, // all radians 
+		     double dPhi = 0.2
                 )
     : fDTheta(dTheta)
     , fDPhi(dPhi)
